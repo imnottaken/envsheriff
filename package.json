@@ -1,0 +1,53 @@
+{
+  "name": "envguard",
+  "version": "0.1.0",
+  "description": "Catch missing, unused and leaked environment variables before they break production.",
+  "type": "module",
+  "bin": {
+    "envguard": "dist/cli.js"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json --watch",
+    "test": "npm run build && node --test \"test/*.test.mjs\"",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "env",
+    "dotenv",
+    "environment-variables",
+    "env-example",
+    "lint",
+    "cli",
+    "secrets",
+    "github-action"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/imnottaken/envguard.git"
+  },
+  "homepage": "https://github.com/imnottaken/envguard#readme",
+  "bugs": {
+    "url": "https://github.com/imnottaken/envguard/issues"
+  },
+  "author": "Koustav Dey"
+}
