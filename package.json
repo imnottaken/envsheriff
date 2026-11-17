@@ -1,10 +1,10 @@
 {
-  "name": "envguard",
+  "name": "envsheriff",
   "version": "0.1.0",
   "description": "Catch missing, unused and leaked environment variables before they break production.",
   "type": "module",
   "bin": {
-    "envguard": "dist/cli.js"
+    "envsheriff": "dist/cli.js"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -43,11 +43,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/imnottaken/envguard.git"
+    "url": "git+https://github.com/imnottaken/envsheriff.git"
   },
-  "homepage": "https://github.com/imnottaken/envguard#readme",
+  "homepage": "https://github.com/imnottaken/envsheriff#readme",
   "bugs": {
-    "url": "https://github.com/imnottaken/envguard/issues"
+    "url": "https://github.com/imnottaken/envsheriff/issues"
   },
   "author": "Koustav Dey"
 }

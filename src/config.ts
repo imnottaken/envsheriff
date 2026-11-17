@@ -46,13 +46,13 @@ export const EXAMPLE_CANDIDATES = [
 ];
 
 export function loadConfig(root: string): Config {
-  const rc = join(root, ".envguardrc.json");
+  const rc = join(root, ".envsheriffrc.json");
   if (existsSync(rc)) return JSON.parse(readFileSync(rc, "utf8")) as Config;
   const pkg = join(root, "package.json");
   if (existsSync(pkg)) {
     try {
-      const json = JSON.parse(readFileSync(pkg, "utf8")) as { envguard?: Config };
-      if (json.envguard) return json.envguard;
+      const json = JSON.parse(readFileSync(pkg, "utf8")) as { envsheriff?: Config };
+      if (json.envsheriff) return json.envsheriff;
     } catch {
       /* malformed package.json isn't our problem */
     }

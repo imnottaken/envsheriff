@@ -1,13 +1,13 @@
-# envguard
+# envsheriff
 
 **Catch missing, unused and leaked environment variables before they break production.**
 
-You add `process.env.REDIS_URL` to the code, forget to put it in `.env.example`, and your teammate's app crashes on boot. Or someone pastes a real API key into `.env.example` and pushes it. `envguard` catches both in one command.
+You add `process.env.REDIS_URL` to the code, forget to put it in `.env.example`, and your teammate's app crashes on boot. Or someone pastes a real API key into `.env.example` and pushes it. `envsheriff` catches both in one command.
 
 ```console
-$ npx envguard
+$ npx envsheriff
 
-envguard scanned 3 files · 4 vars used · example: .env.example
+envsheriff scanned 3 files · 4 vars used · example: .env.example
 
 ✖ Missing from .env.example (1)
   REDIS_URL  worker.py:2
@@ -60,20 +60,20 @@ In a git repo it scans exactly what git sees, so `.gitignore` is respected. Outs
 ## Usage
 
 ```bash
-npx envguard                  # check the current directory
-npx envguard ./apps/web       # check a subfolder (monorepos)
-npx envguard --fix            # add missing vars to .env.example
-npx envguard --json           # machine-readable output
-npx envguard --strict         # fail on warnings too
-npx envguard -i "SENTRY_*,DEBUG"   # ignore variable names or globs
-npx envguard -x "test/**,scripts"  # skip paths when scanning
+npx envsheriff                  # check the current directory
+npx envsheriff ./apps/web       # check a subfolder (monorepos)
+npx envsheriff --fix            # add missing vars to .env.example
+npx envsheriff --json           # machine-readable output
+npx envsheriff --strict         # fail on warnings too
+npx envsheriff -i "SENTRY_*,DEBUG"   # ignore variable names or globs
+npx envsheriff -x "test/**,scripts"  # skip paths when scanning
 ```
 
 Exit code `0` means clean, `1` means problems found, `2` means bad usage, so it drops straight into CI or a pre-commit hook.
 
 ### Config
 
-Put options in `.envguardrc.json` (or an `"envguard"` key in `package.json`):
+Put options in `.envsheriffrc.json` (or an `"envsheriff"` key in `package.json`):
 
 ```json
 {
@@ -86,7 +86,7 @@ Put options in `.envguardrc.json` (or an `"envguard"` key in `package.json`):
 
 Runtime and platform variables (`NODE_ENV`, `PORT`, `CI`, `VERCEL_*`, Vite's `MODE`/`DEV`…) are ignored by default. Variables that SDKs read on their own (`OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `CLERK_*`, `NEXTAUTH_SECRET`, `AWS_*`…) are never flagged as unused.
 
-No `.env.example`, but a committed `.env` of defaults (the Next.js convention)? envguard uses that as the source of truth instead.
+No `.env.example`, but a committed `.env` of defaults (the Next.js convention)? envsheriff uses that as the source of truth instead.
 
 ### GitHub Action
 
@@ -95,28 +95,28 @@ No `.env.example`, but a committed `.env` of defaults (the Next.js convention)? 
 name: env
 on: [push, pull_request]
 jobs:
-  envguard:
+  envsheriff:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: imnottaken/envguard@v0
+      - uses: imnottaken/envsheriff@v0
         with:
           args: --strict
 ```
 
-Or simply `- run: npx envguard` in any existing workflow.
+Or simply `- run: npx envsheriff` in any existing workflow.
 
 ### Pre-commit hook
 
 ```bash
 # .husky/pre-commit
-npx envguard
+npx envsheriff
 ```
 
 ### As a library
 
 ```ts
-import { check, formatText } from "envguard";
+import { check, formatText } from "envsheriff";
 
 const result = check({ root: process.cwd() });
 console.log(result.missing.map((m) => m.name));
@@ -135,14 +135,14 @@ It's regex-based rather than a full parser: fast and dependency-free, at the cos
 
 - [ ] Monorepo mode: check every package with its own `.env.example`
 - [ ] Type generation (`env.d.ts`) from `.env.example`
-- [ ] Validate `.env` against `.env.example` on your machine (`envguard local`)
+- [ ] Validate `.env` against `.env.example` on your machine (`envsheriff local`)
 - [ ] Java, C#, Elixir support
 
 ## Contributing
 
 ```bash
-git clone https://github.com/imnottaken/envguard
-cd envguard && npm install
+git clone https://github.com/imnottaken/envsheriff
+cd envsheriff && npm install
 npm test
 ```
 

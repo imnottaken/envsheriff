@@ -18,7 +18,7 @@ export function fixMissing(r: CheckResult): { file: string; added: string[] } {
   } else {
     const current = readFileSync(path, "utf8");
     const sep = current.length === 0 || current.endsWith("\n") ? "" : "\n";
-    appendFileSync(path, `${sep}\n# Added by envguard\n${block}`);
+    appendFileSync(path, `${sep}\n# Added by envsheriff\n${block}`);
   }
   return { file, added: names };
 }

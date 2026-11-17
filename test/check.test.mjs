@@ -14,7 +14,7 @@ const fake = (...parts) => parts.join("");
 const CLI = join(dirname(fileURLToPath(import.meta.url)), "../dist/cli.js");
 
 function project(files, { git = false } = {}) {
-  const root = mkdtempSync(join(tmpdir(), "envguard-"));
+  const root = mkdtempSync(join(tmpdir(), "envsheriff-"));
   for (const [path, content] of Object.entries(files)) {
     mkdirSync(dirname(join(root, path)), { recursive: true });
     writeFileSync(join(root, path), content);
@@ -77,7 +77,7 @@ test("exclude skips paths by glob", () => {
 
 test("config file is respected", () => {
   const root = project({
-    ".envguardrc.json": JSON.stringify({ ignore: ["SKIP_ME"], example: "config/env.example" }),
+    ".envsheriffrc.json": JSON.stringify({ ignore: ["SKIP_ME"], example: "config/env.example" }),
     "config/env.example": "REAL=\n",
     "a.js": "process.env.REAL; process.env.SKIP_ME;",
   });
@@ -102,7 +102,7 @@ test("--fix appends missing vars and then passes", () => {
   });
   const res = run(root, "--fix");
   assert.equal(res.status, 0, res.stdout);
-  assert.equal(readFileSync(join(root, ".env.example"), "utf8"), "A=1\n\n# Added by envguard\nB=\nC=\n");
+  assert.equal(readFileSync(join(root, ".env.example"), "utf8"), "A=1\n\n# Added by envsheriff\nB=\nC=\n");
 });
 
 test("--fix creates .env.example when absent", () => {

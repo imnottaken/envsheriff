@@ -7,10 +7,10 @@ import { loadConfig } from "./config.js";
 import { fixMissing } from "./fix.js";
 import { formatJson, formatText } from "./report.js";
 
-const HELP = `envguard: catch missing, unused and leaked env vars
+const HELP = `envsheriff: catch missing, unused and leaked env vars
 
 Usage
-  envguard [dir] [options]
+  envsheriff [dir] [options]
 
 Options
   -e, --example <file>   Example file to compare against (default: auto-detect .env.example)
@@ -24,7 +24,7 @@ Options
   -v, --version          Show version
 
 Config
-  Put the same options in .envguardrc.json or an "envguard" key in package.json:
+  Put the same options in .envsheriffrc.json or an "envsheriff" key in package.json:
   { "example": ".env.example", "ignore": ["SENTRY_*"], "strict": false }
 
 Exit codes
@@ -53,14 +53,14 @@ function main(): number {
       },
     });
   } catch (err) {
-    console.error(`envguard: ${(err as Error).message}\nRun envguard --help for usage.`);
+    console.error(`envsheriff: ${(err as Error).message}\nRun envsheriff --help for usage.`);
     return 2;
   }
   const { values, positionals } = parsed;
   if (values.help) return console.log(HELP), 0;
   if (values.version) return console.log(version()), 0;
   if (positionals.length > 1) {
-    console.error("envguard: pass at most one directory");
+    console.error("envsheriff: pass at most one directory");
     return 2;
   }
 
@@ -69,7 +69,7 @@ function main(): number {
   try {
     config = loadConfig(root);
   } catch (err) {
-    console.error(`envguard: couldn't read config: ${(err as Error).message}`);
+    console.error(`envsheriff: couldn't read config: ${(err as Error).message}`);
     return 2;
   }
 

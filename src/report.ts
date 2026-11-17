@@ -17,14 +17,14 @@ export function formatText(r: CheckResult, opts: { strict?: boolean } = {}): str
   const { errors, warnings } = counts(r);
   const example = r.exampleFile ?? "(none)";
   lines.push(
-    `${bold("envguard")} ${dim(`scanned ${r.filesScanned} files · ${r.used.length} vars used · example: ${example}`)}`,
+    `${bold("envsheriff")} ${dim(`scanned ${r.filesScanned} files · ${r.used.length} vars used · example: ${example}`)}`,
     "",
   );
 
   if (r.exampleFile === null && r.used.length > 0) {
     lines.push(red(`✖ No .env.example found`));
     lines.push(`  ${r.used.length} variables are read in code but undocumented.`);
-    lines.push(dim(`  Run ${bold("envguard --fix")} to create one.`), "");
+    lines.push(dim(`  Run ${bold("envsheriff --fix")} to create one.`), "");
   } else if (r.missing.length) {
     lines.push(red(`✖ Missing from ${r.exampleFile} (${r.missing.length})`));
     const w = Math.max(...r.missing.map((m) => m.name.length)) + 2;

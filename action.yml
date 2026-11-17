@@ -1,4 +1,4 @@
-name: envguard
+name: envsheriff
 description: Catch missing, unused and leaked environment variables
 branding:
   icon: shield
@@ -11,7 +11,7 @@ inputs:
     description: Extra CLI arguments, e.g. "--strict"
     default: ""
   version:
-    description: envguard version from npm
+    description: envsheriff version from npm
     default: latest
 runs:
   using: composite
@@ -21,8 +21,8 @@ runs:
         node-version: 22
     - shell: bash
       env:
-        ENVGUARD_PATH: ${{ inputs.path }}
-        ENVGUARD_ARGS: ${{ inputs.args }}
-        ENVGUARD_VERSION: ${{ inputs.version }}
+        ENVSHERIFF_PATH: ${{ inputs.path }}
+        ENVSHERIFF_ARGS: ${{ inputs.args }}
+        ENVSHERIFF_VERSION: ${{ inputs.version }}
       # shellcheck disable=SC2086 (args are intentionally word-split)
-      run: npx --yes "envguard@${ENVGUARD_VERSION}" "$ENVGUARD_PATH" $ENVGUARD_ARGS
+      run: npx --yes "envsheriff@${ENVSHERIFF_VERSION}" "$ENVSHERIFF_PATH" $ENVSHERIFF_ARGS
